@@ -22,6 +22,7 @@ public class Main implements IXposedHookLoadPackage {
         new StartActivityHook().hook(lpparam);
 
         if (lpparam.packageName.contentEquals(WeChatSettings.WECHAT_PACKAGE_NAME)) {
+            new WeChatRouterHook().hook(lpparam);
             new WeChatLoginHook().hook(lpparam);
             new WeChatAutoStarHook().hook(lpparam);
         }

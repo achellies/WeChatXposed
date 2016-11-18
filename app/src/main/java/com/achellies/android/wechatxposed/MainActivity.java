@@ -1,7 +1,6 @@
 package com.achellies.android.wechatxposed;
 
 import android.Manifest;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -49,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = pm.getLaunchIntentForPackage(WeChatSettings.WECHAT_PACKAGE_NAME);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra(WeChatSettings.X_ACTION_KEY, WeChatSettings.X_ACTION_LOGIN);
                 startActivity(intent);
             }
         });

@@ -1,11 +1,25 @@
 package com.achellies.android.wechatxposed.hook;
 
+import android.support.annotation.StringDef;
+
 /**
  * Created by achellies on 16/11/18.
  */
 
 public class WeChatSettings {
     private static WeChatSettings sInstance;
+
+
+    /**
+     * X_ACTION 定义
+     */
+    @StringDef({X_ACTION_LOGIN})
+    public @interface X_Action {
+    }
+
+    public static final String X_ACTION_KEY = "x_action";
+
+    public static final String X_ACTION_LOGIN = "x_action_login";
 
     /**
      * 微信的包名

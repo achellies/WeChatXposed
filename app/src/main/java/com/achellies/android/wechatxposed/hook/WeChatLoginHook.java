@@ -1,6 +1,7 @@
 package com.achellies.android.wechatxposed.hook;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,28 +26,6 @@ public class WeChatLoginHook extends BaseHook {
 
     @Override
     public void hook(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        findAndHookMethod(WeChatSettings.LAUNCHER_ACTIVITY, lpparam.classLoader, "onResume", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                super.afterHookedMethod(param);
-
-                if (param.thisObject instanceof Activity) {
-                    Activity activity = (Activity) (param.thisObject);
-                    final ViewGroup contentView = (ViewGroup) activity.getWindow().getDecorView();
-
-                    contentView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Button btnLogin = findButton(contentView, "登录");
-                            if (btnLogin != null && btnLogin.getVisibility() == View.VISIBLE) {
-                                btnLogin.performClick();
-                            }
-                        }
-                    }, 1000);
-                }
-            }
-        });
-
         findAndHookMethod(WeChatSettings.MOBILE_INPUT_ACTIVITY, lpparam.classLoader, "onResume", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
