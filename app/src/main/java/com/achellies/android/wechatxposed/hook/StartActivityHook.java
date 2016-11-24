@@ -1,5 +1,6 @@
 package com.achellies.android.wechatxposed.hook;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,33 +10,31 @@ import java.util.HashMap;
 import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 /**
  * Created by achellies on 16/11/18.
  */
-
-public class StartActivityHook extends BaseHook {
+class StartActivityHook extends BaseHook {
     @Override
-    public void hook(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    public void hook(ClassLoader classLoader) throws Throwable {
         //hook 启动 activity android.app.Activity#startActivityForResult
-        findAndHookMethod("android.app.Activity", lpparam.classLoader, "startActivityForResult", Intent.class, int.class, Bundle.class,
+        findAndHookMethod("android.app.Activity", classLoader, "startActivityForResult", Intent.class, int.class, Bundle.class,
                 new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         Intent it = (Intent) param.args[0];
                         Bundle bund = (Bundle) param.args[2];
-                        String tag = "startXActivity";
-                        getIntentAndBundle(it, bund, tag);
+                        Activity activity = (Activity) param.thisObject;
+                        getIntentAndBundle(it);
                     }
                 }
         );
     }
 
     //处理 intent
-    public void getIntentAndBundle(Intent it, Bundle bund, String tag) {
+    public static HashMap<String, Object> getIntentAndBundle(Intent it) {
         HashMap<String, Object> intentMap = new HashMap<>();
 
 
@@ -94,5 +93,7 @@ public class StartActivityHook extends BaseHook {
                 e.printStackTrace();
             }
         }
+
+        return intentMap;
     }
 }

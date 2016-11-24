@@ -8,18 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 /**
  * Created by achellies on 16/11/18.
  */
-
-public class NoTraceHook extends BaseHook {
+class NoTraceHook extends BaseHook {
     @Override
-    public void hook(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        findAndHookMethod("android.app.ApplicationPackageManager", loadPackageParam.classLoader, "getInstalledApplications", int.class, new XC_MethodHook() {
+    public void hook(ClassLoader classLoader) throws Throwable {
+        findAndHookMethod("android.app.ApplicationPackageManager", classLoader, "getInstalledApplications", int.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 List<ApplicationInfo> applicationList = (List) param.getResult();
@@ -35,7 +33,7 @@ public class NoTraceHook extends BaseHook {
             }
         });
 
-        findAndHookMethod("android.app.ApplicationPackageManager", loadPackageParam.classLoader, "getInstalledPackages", int.class, new XC_MethodHook() {
+        findAndHookMethod("android.app.ApplicationPackageManager", classLoader, "getInstalledPackages", int.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 List<PackageInfo> packageInfoList = (List) param.getResult();
@@ -52,7 +50,7 @@ public class NoTraceHook extends BaseHook {
             }
         });
 
-//        findAndHookMethod("android.app.ApplicationPackageManager", loadPackageParam.classLoader, "getPackageInfo", String.class, int.class, new XC_MethodHook() {
+//        findAndHookMethod("android.app.ApplicationPackageManager", classLoader, "getPackageInfo", String.class, int.class, new XC_MethodHook() {
 //            @Override
 //            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 //                String packageName = (String) param.args[0];
@@ -62,7 +60,7 @@ public class NoTraceHook extends BaseHook {
 //            }
 //        });
 //
-//        findAndHookMethod("android.app.ApplicationPackageManager", loadPackageParam.classLoader, "getApplicationInfo", String.class, int.class, new XC_MethodHook() {
+//        findAndHookMethod("android.app.ApplicationPackageManager", classLoader, "getApplicationInfo", String.class, int.class, new XC_MethodHook() {
 //            @Override
 //            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 //                String packageName = (String) param.args[0];
@@ -72,7 +70,7 @@ public class NoTraceHook extends BaseHook {
 //            }
 //        });
 
-        findAndHookMethod("android.app.ActivityManager", loadPackageParam.classLoader, "getRunningServices", int.class, new XC_MethodHook() {
+        findAndHookMethod("android.app.ActivityManager", classLoader, "getRunningServices", int.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 List<ActivityManager.RunningServiceInfo> serviceInfoList = (List) param.getResult();
@@ -89,7 +87,7 @@ public class NoTraceHook extends BaseHook {
             }
         });
 
-        findAndHookMethod("android.app.ActivityManager", loadPackageParam.classLoader, "getRunningTasks", int.class, new XC_MethodHook() {
+        findAndHookMethod("android.app.ActivityManager", classLoader, "getRunningTasks", int.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 List<ActivityManager.RunningTaskInfo> serviceInfoList = (List) param.getResult();
@@ -106,7 +104,7 @@ public class NoTraceHook extends BaseHook {
             }
         });
 
-        findAndHookMethod("android.app.ActivityManager", loadPackageParam.classLoader, "getRunningAppProcesses", new XC_MethodHook() {
+        findAndHookMethod("android.app.ActivityManager", classLoader, "getRunningAppProcesses", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                 List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfos = (List) param.getResult();

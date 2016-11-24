@@ -13,8 +13,7 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 /**
  * Created by achellies on 16/11/18.
  */
-
-public class Utils {
+class Utils {
 
     final protected static char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 

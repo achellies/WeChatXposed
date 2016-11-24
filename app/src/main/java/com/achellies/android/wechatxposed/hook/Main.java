@@ -17,14 +17,12 @@ public class Main implements IXposedHookLoadPackage {
             return;
         }
 
-        new NoTraceHook().hook(lpparam);
-        new SystemInfoHook().hook(lpparam);
-        new StartActivityHook().hook(lpparam);
+        new NoTraceHook().hook(lpparam.classLoader);
+        new SystemInfoHook().hook(lpparam.classLoader);
+        new StartActivityHook().hook(lpparam.classLoader);
 
         if (lpparam.packageName.contentEquals(WeChatSettings.WECHAT_PACKAGE_NAME)) {
-            new WeChatRouterHook().hook(lpparam);
-            new WeChatLoginHook().hook(lpparam);
-            new WeChatAutoStarHook().hook(lpparam);
+            new WeChatRouterHook().hook(lpparam.classLoader);
         }
     }
 }

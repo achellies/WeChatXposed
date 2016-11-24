@@ -1,4 +1,4 @@
-package com.achellies.android.wechatxposed;
+package com.achellies.android.wechatxposed.hook;
 
 import android.content.Context;
 import android.content.SharedPreferences;
