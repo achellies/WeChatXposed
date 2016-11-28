@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.lang.reflect.Field;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
@@ -20,6 +21,16 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 class WeChatSettingsHook extends BaseHook {
     @Override
     public void hook(ClassLoader classLoader) throws Throwable {
+        findAndHookMethod("com.tencent.mm.sdk.platformtools.C3418v", classLoader, "bmU", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+
+                String buildInfo = (String) param.getResult();
+                XposedBridge.log(buildInfo);
+            }
+        });
+
         findAndHookMethod(WeChatSettings.SETTING_ACTIVITY, classLoader, "onResume", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {

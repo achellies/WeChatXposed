@@ -110,11 +110,13 @@ class NoTraceHook extends BaseHook {
                 List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfos = (List) param.getResult();
                 List<ActivityManager.RunningAppProcessInfo> resultList = new ArrayList<>();
 
-                for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : runningAppProcessInfos) {
-                    String processName = runningAppProcessInfo.processName;
-                    if (isTarget(processName)) {
-                    } else {
-                        resultList.add(runningAppProcessInfo);
+                if (runningAppProcessInfos != null) {
+                    for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : runningAppProcessInfos) {
+                        String processName = runningAppProcessInfo.processName;
+                        if (isTarget(processName)) {
+                        } else {
+                            resultList.add(runningAppProcessInfo);
+                        }
                     }
                 }
                 param.setResult(resultList);

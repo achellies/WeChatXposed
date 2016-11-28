@@ -68,6 +68,9 @@ class StartActivityHook extends BaseHook {
                     for (String key : keySet) {
                         count++;
                         Object thisObject = intentBundle.get(key);
+                        if (thisObject == null) {
+                            continue;
+                        }
                         String thisClass = thisObject.getClass().getName();
 
                         if (thisObject instanceof ArrayList) {

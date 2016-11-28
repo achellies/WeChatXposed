@@ -1,46 +1,9 @@
 package com.achellies.android.wechatxposed.hook;
 
-import android.support.annotation.StringDef;
-
 /**
  * Created by achellies on 16/11/18.
  */
 class WeChatSettings {
-
-    /**
-     * X_ACTION 定义
-     */
-    @StringDef({X_ACTION_LOGIN, X_ACTION_LOGOUT, X_ACTION_STAR_CONTACT, X_ACTION_START_WEBVIEW})
-    public @interface X_Action {
-    }
-
-    static final String X_ACTION_KEY = "x_action";
-
-
-    /**
-     * 登录的action
-     */
-    static final String X_ACTION_LOGIN = "x_action_login";
-
-    /**
-     * 退出登录的action
-     */
-    static final String X_ACTION_LOGOUT = "x_action_logout";
-
-    /**
-     * 关注某个公共账号
-     */
-    static final String X_ACTION_STAR_CONTACT = "x_action_star_contact";
-
-    /**
-     * 启动微信的浏览器阅读一篇文章
-     */
-    static final String X_ACTION_START_WEBVIEW = "x_action_webview";
-
-    /**
-     * 进入附近的人页面
-     */
-    static final String X_ACTION_NEARBY = "x_action_nearby";
 
     /**
      * 微信的包名

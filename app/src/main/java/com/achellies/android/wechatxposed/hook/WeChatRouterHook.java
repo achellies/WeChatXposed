@@ -109,13 +109,13 @@ class WeChatRouterHook extends BaseHook {
                             final Activity activity = (Activity) (param.thisObject);
                             final ViewGroup contentView = (ViewGroup) activity.getWindow().getDecorView();
 
-                            final String x_action = activity.getIntent().getStringExtra(WeChatSettings.X_ACTION_KEY);
+                            final String x_action = activity.getIntent().getStringExtra(WeChatRouter.X_ACTION_KEY);
                             if (!TextUtils.isEmpty(x_action)) {
-                                activity.getIntent().putExtra(WeChatSettings.X_ACTION_KEY, "");
+                                activity.getIntent().putExtra(WeChatRouter.X_ACTION_KEY, "");
                                 contentView.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (WeChatSettings.X_ACTION_LOGIN.contentEquals(x_action)) {
+                                        if (WeChatRouter.X_ACTION_LOGIN.contentEquals(x_action)) {
                                             String userName = activity.getIntent().getStringExtra("x_userName");
                                             String password = activity.getIntent().getStringExtra("x_password");
 
@@ -136,7 +136,7 @@ class WeChatRouterHook extends BaseHook {
                                                 intent.putExtra("x_password", password);
                                                 activity.startActivity(intent);
                                             }
-                                        } else if (WeChatSettings.X_ACTION_LOGOUT.contentEquals(x_action)) {
+                                        } else if (WeChatRouter.X_ACTION_LOGOUT.contentEquals(x_action)) {
                                             Button btnLogin = findButton(contentView, "登录");
                                             if (btnLogin != null && btnLogin.getVisibility() == View.VISIBLE) {
                                                 // 已经退出了登录
@@ -146,7 +146,7 @@ class WeChatRouterHook extends BaseHook {
                                                 intent.putExtra("x_logout", 1);
                                                 activity.startActivity(intent);
                                             }
-                                        } else if (WeChatSettings.X_ACTION_STAR_CONTACT.contentEquals(x_action)) {
+                                        } else if (WeChatRouter.X_ACTION_STAR_CONTACT.contentEquals(x_action)) {
                                             final String contactUser = activity.getIntent().getStringExtra("x_Contact_User");
 
                                             Intent intent = new Intent();
@@ -155,7 +155,7 @@ class WeChatRouterHook extends BaseHook {
                                             intent.putExtra("Contact_User", contactUser);
                                             intent.putExtra("x_action_star", 1);
                                             activity.startActivity(intent);
-                                        } else if (WeChatSettings.X_ACTION_START_WEBVIEW.contentEquals(x_action)) {
+                                        } else if (WeChatRouter.X_ACTION_START_WEBVIEW.contentEquals(x_action)) {
                                             final String url = activity.getIntent().getStringExtra("x_url");
 
                                             Intent intent = new Intent();
@@ -164,7 +164,7 @@ class WeChatRouterHook extends BaseHook {
                                             intent.putExtra("shortUrl", url);
                                             intent.putExtra("rawUrl", url);
                                             activity.startActivity(intent);
-                                        } else if (WeChatSettings.X_ACTION_NEARBY.contentEquals(x_action)) {
+                                        } else if (WeChatRouter.X_ACTION_NEARBY.contentEquals(x_action)) {
                                             Intent intent = new Intent();
                                             intent.setClassName(activity.getPackageName(), WeChatSettings.NEARBY_ACTIVITY);
                                             activity.startActivity(intent);

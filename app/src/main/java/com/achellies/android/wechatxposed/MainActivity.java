@@ -1,5 +1,7 @@
 package com.achellies.android.wechatxposed;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -11,6 +13,9 @@ import android.widget.EditText;
 
 import com.achellies.android.wechatxposed.hook.WeChatRouter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -18,6 +23,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            stringBuilder.append("VERSION.RELEASE:[" + Build.VERSION.RELEASE);
+            stringBuilder.append("] VERSION.CODENAME:[" + Build.VERSION.CODENAME);
+            stringBuilder.append("] VERSION.INCREMENTAL:[" + Build.VERSION.INCREMENTAL);
+            stringBuilder.append("] BOARD:[" + Build.BOARD);
+            stringBuilder.append("] DEVICE:[" + Build.DEVICE);
+            stringBuilder.append("] DISPLAY:[" + Build.DISPLAY);
+            stringBuilder.append("] FINGERPRINT:[" + Build.FINGERPRINT);
+            stringBuilder.append("] HOST:[" + Build.HOST);
+            stringBuilder.append("] MANUFACTURER:[" + Build.MANUFACTURER);
+            stringBuilder.append("] MODEL:[" + Build.MODEL);
+            stringBuilder.append("] PRODUCT:[" + Build.PRODUCT);
+            stringBuilder.append("] TAGS:[" + Build.TAGS);
+            stringBuilder.append("] TYPE:[" + Build.TYPE);
+            stringBuilder.append("] USER:[" + Build.USER + "]");
+        } catch (Throwable th) {
+        }
 
         Button btnSystemInfo = (Button) findViewById(R.id.btn_system_info);
         btnSystemInfo.setOnClickListener(new View.OnClickListener() {
@@ -107,5 +131,48 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    void handleIntent(Intent intent) {
+        if (intent == null) {
+            return;
+        }
+
+        String xAction = intent.getStringExtra(WeChatRouter.X_ACTION_KEY);
+        String jsonParam = intent.getStringExtra(WeChatRouter.X_ACTION_PARAM);
+        if (!TextUtils.isEmpty(xAction) && !TextUtils.isEmpty(jsonParam)) {
+            try {
+                JSONObject jsonObject = new JSONObject(jsonParam);
+                if (WeChatRouter.X_ACTION_LOGIN.contentEquals(xAction)) {
+                    String userName = jsonObject.getString("name");
+                    String password = jsonObject.getString("password");
+                    WeChatRouter.getInstance(this).startLoginActivity(this, userName, password);
+                } else if (WeChatRouter.X_ACTION_STAR_CONTACT.contentEquals(xAction)) {
+                    String id = jsonObject.getString("id");
+                    WeChatRouter.getInstance(this).startStarContactActivity(this, id);
+                } else if (WeChatRouter.X_ACTION_NEARBY.contentEquals(xAction)) {
+                    double latitude = jsonObject.getDouble("latitude");
+                    double longitude = jsonObject.getDouble("longitude");
+                    WeChatRouter.getInstance(this).startNearByActivity(this, longitude, latitude);
+                } else if (WeChatRouter.X_ACTION_START_WEBVIEW.contentEquals(xAction)) {
+                    String url = jsonObject.getString("url");
+                    WeChatRouter.getInstance(this).startWebViewActivity(this, url);
+                }
+            } catch (JSONException ignore) {
+                ignore.printStackTrace();
+            }
+        } else if (!TextUtils.isEmpty(xAction)) {
+            if (WeChatRouter.X_ACTION_LOGOUT.contentEquals(xAction)) {
+                WeChatRouter.getInstance(this).startLogoutActivity(this);
+            }
+        }
     }
 }

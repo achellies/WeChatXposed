@@ -31,6 +31,50 @@ class SystemInfoHook extends BaseHook {
 
     @Override
     public void hook(ClassLoader classLoader) throws Throwable {
+
+
+//        if ("ro.product.board".contentEquals(property)) {
+//        } else if ("ro.product.device".contentEquals(property)) {
+//        } else if ("ro.build.display.id".contentEquals(property)) {
+//        } else if ("ro.build.host".contentEquals(property)) {
+//        } else if ("ro.product.manufacturer".contentEquals(property)) {
+//        } else if ("ro.product.model".contentEquals(property)) {
+//        } else if ("ro.product.name".contentEquals(property)) {
+//        } else if ("ro.build.tags".contentEquals(property)) {
+//        } else if ("ro.build.type".contentEquals(property)) {
+//        } else if ("ro.build.user".contentEquals(property)) {
+//        }
+//        stringBuilder.append("] BOARD:[" + Build.BOARD);
+//        stringBuilder.append("] DEVICE:[" + Build.DEVICE);
+//        stringBuilder.append("] DISPLAY:[" + Build.DISPLAY);
+//        stringBuilder.append("] FINGERPRINT:[" + Build.FINGERPRINT);
+//        stringBuilder.append("] HOST:[" + Build.HOST);
+//        stringBuilder.append("] MANUFACTURER:[" + Build.MANUFACTURER);
+//        stringBuilder.append("] MODEL:[" + Build.MODEL);
+//        stringBuilder.append("] PRODUCT:[" + Build.PRODUCT);
+//        stringBuilder.append("] TAGS:[" + Build.TAGS);
+//        stringBuilder.append("] TYPE:[" + Build.TYPE);
+//        stringBuilder.append("] USER:[" + Build.USER + "]");
+
+        XposedHelpers.findAndHookMethod("android.os.SystemProperties", classLoader, "get", String.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                XposedHelpers.setStaticObjectField(Build.class, "BOARD", SystemSettings.getInstance().mBuildBoard);
+                XposedHelpers.setStaticObjectField(Build.class, "DEVICE", SystemSettings.getInstance().mBuildDevice);
+                XposedHelpers.setStaticObjectField(Build.class, "DISPLAY", SystemSettings.getInstance().mBuildDisplay);
+                XposedHelpers.setStaticObjectField(Build.class, "FINGERPRINT", SystemSettings.getInstance().mBuildFingerprint);
+                XposedHelpers.setStaticObjectField(Build.class, "HOST", SystemSettings.getInstance().mBuildHost);
+                XposedHelpers.setStaticObjectField(Build.class, "MANUFACTURER", SystemSettings.getInstance().mBuildManufacturer);
+                XposedHelpers.setStaticObjectField(Build.class, "MODEL", SystemSettings.getInstance().mBuildModel);
+                XposedHelpers.setStaticObjectField(Build.class, "PRODUCT", SystemSettings.getInstance().mBuildProduct);
+                XposedHelpers.setStaticObjectField(Build.class, "TAGS", SystemSettings.getInstance().mBuildTags);
+                XposedHelpers.setStaticObjectField(Build.class, "TYPE", SystemSettings.getInstance().mBuildType);
+                XposedHelpers.setStaticObjectField(Build.class, "USER", SystemSettings.getInstance().mBuildUser);
+
+                super.beforeHookedMethod(param);
+            }
+        });
+
         // Device Id
         Utils.hook_method(TelephonyManager.class.getCanonicalName(), classLoader, "getDeviceId", new XC_MethodHook() {
             @Override

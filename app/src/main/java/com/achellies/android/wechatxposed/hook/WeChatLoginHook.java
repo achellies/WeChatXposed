@@ -2,6 +2,7 @@ package com.achellies.android.wechatxposed.hook;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,17 +101,19 @@ class WeChatLoginHook extends BaseHook {
                             }
                         });
                     }
-                    handler.post(new Runnable() {
+                    if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password)) {
+                        handler.post(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            // 找到登录按钮，然后单击登录
-                            Button btnLogin = findButton(contentView, "登录");
-                            if (btnLogin != null) {
-                                btnLogin.performClick();
+                            @Override
+                            public void run() {
+                                // 找到登录按钮，然后单击登录
+                                Button btnLogin = findButton(contentView, "登录");
+                                if (btnLogin != null) {
+                                    btnLogin.performClick();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         });
