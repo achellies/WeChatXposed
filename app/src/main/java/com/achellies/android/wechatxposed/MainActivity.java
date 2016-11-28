@@ -17,6 +17,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
+    EditText etLongitude;
+    EditText etLatitude;
+    EditText etImei;
+    EditText etMac;
+    EditText etAndroidId;
+    EditText etSimSerialNumber;
+    EditText etUserName;
+    EditText etPassword;
+    EditText etContact;
+    EditText etArticle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +53,26 @@ public class MainActivity extends AppCompatActivity {
         } catch (Throwable th) {
         }
 
+        etLongitude = (EditText) findViewById(R.id.et_longitude);
+        etLatitude = (EditText) findViewById(R.id.et_latitude);
+        etImei = (EditText) findViewById(R.id.et_imei);
+        etMac = (EditText) findViewById(R.id.et_mac);
+        etAndroidId = (EditText) findViewById(R.id.et_androidId);
+        etSimSerialNumber = (EditText) findViewById(R.id.et_simSerialNumber);
+
+        etLongitude = (EditText) findViewById(R.id.et_longitude);
+        etLatitude = (EditText) findViewById(R.id.et_latitude);
+
+        etUserName = (EditText) findViewById(R.id.et_userName);
+        etPassword = (EditText) findViewById(R.id.et_password);
+
+        etContact = (EditText) findViewById(R.id.et_contact);
+        etArticle = (EditText) findViewById(R.id.et_contact_article);
+
         Button btnSystemInfo = (Button) findViewById(R.id.btn_system_info);
         btnSystemInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText etLongitude = (EditText) findViewById(R.id.et_longitude);
-                EditText etLatitude = (EditText) findViewById(R.id.et_latitude);
-                EditText etImei = (EditText) findViewById(R.id.et_imei);
-                EditText etMac = (EditText) findViewById(R.id.et_mac);
-                EditText etAndroidId = (EditText) findViewById(R.id.et_androidId);
-                EditText etSimSerialNumber = (EditText) findViewById(R.id.et_simSerialNumber);
 
                 WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("latitude", etLatitude.getText().toString());
                 WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("longitude", etLongitude.getText().toString());
@@ -67,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
         btnNearBy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText etLongitude = (EditText) findViewById(R.id.et_longitude);
-                EditText etLatitude = (EditText) findViewById(R.id.et_latitude);
                 try {
                     WeChatRouter.getInstance(MainActivity.this).startNearByActivity(MainActivity.this, Double.parseDouble(etLongitude.getText().toString()), Double.parseDouble(etLatitude.getText().toString()));
                 } catch (Exception ignore) {
@@ -80,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
         btnWeChatLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText etUserName = (EditText) findViewById(R.id.et_userName);
-                EditText etPassword = (EditText) findViewById(R.id.et_password);
                 String userName = etUserName.getText().toString();
                 String password = etPassword.getText().toString();
                 if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password)) {
@@ -102,8 +118,7 @@ public class MainActivity extends AppCompatActivity {
         btnContactInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = (EditText) findViewById(R.id.et_contact);
-                String text = editText.getText().toString();
+                String text = etContact.getText().toString();
                 if (!TextUtils.isEmpty(text)) {
                     WeChatRouter.getInstance(MainActivity.this).startStarContactActivity(MainActivity.this, text);
                 }
@@ -114,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
         btnReadArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText etArticle = (EditText) findViewById(R.id.et_contact_article);
                 String url = etArticle.getText().toString();
                 if (!TextUtils.isEmpty(url)) {
                     WeChatRouter.getInstance(MainActivity.this).startWebViewActivity(MainActivity.this, url);
@@ -165,6 +179,25 @@ public class MainActivity extends AppCompatActivity {
                 } else if (WeChatRouter.X_ACTION_START_WEBVIEW.contentEquals(xAction)) {
                     String url = jsonObject.getString("url");
                     WeChatRouter.getInstance(this).startWebViewActivity(this, url);
+                } else if (WeChatRouter.X_ACTION_MOCK_SYSTEM_INFO.contentEquals(xAction)) {
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("latitude", Double.toString(jsonObject.getDouble("latitude")));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("longitude", Double.toString(jsonObject.getDouble("longitude")));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("imei", jsonObject.getString("imei"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("androidId", jsonObject.getString("androidId"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("simSerialNumber", jsonObject.getString("simSerialNumber"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("mac", jsonObject.getString("mac"));
+
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildBoard", jsonObject.getString("buildBoard"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildDevice", jsonObject.getString("buildDevice"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildDisplay", jsonObject.getString("buildDisplay"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildFingerprint", jsonObject.getString("buildFingerprint"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildHost", jsonObject.getString("buildHost"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildManufacturer", jsonObject.getString("buildManufacturer"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildModel", jsonObject.getString("buildModel"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildProduct", jsonObject.getString("buildProduct"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildTags", jsonObject.getString("buildTags"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildType", jsonObject.getString("buildType"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildUser", jsonObject.getString("buildUser"));
                 }
             } catch (JSONException ignore) {
                 ignore.printStackTrace();

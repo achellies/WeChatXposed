@@ -49,6 +49,11 @@ public class WeChatRouter {
      */
     public static final String X_ACTION_NEARBY = "x_action_nearby";
 
+    /**
+     * 设置系统信息
+     */
+    public static final String X_ACTION_MOCK_SYSTEM_INFO = "x_action_mock";
+
     private static WeChatRouter sInstance = null;
 
     public final SettingsHelper mSharedPreferences;

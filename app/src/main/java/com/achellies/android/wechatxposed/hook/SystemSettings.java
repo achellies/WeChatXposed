@@ -59,13 +59,25 @@ class SystemSettings {
         }
         if (mSharedPreferences != null) {
             mSharedPreferences.reload();
-            mOutputLog = mSharedPreferences.getBoolean("output_log", false);
-            mLatitude = Double.parseDouble(mSharedPreferences.getString("latitude", "0"));
-            mLongitude = Double.parseDouble(mSharedPreferences.getString("longitude", "0"));
-            mIMEI = mSharedPreferences.getString("imei", "");
-            mAndroidId = mSharedPreferences.getString("androidId", "");
-            mSimSerialNumber = mSharedPreferences.getString("simSerialNumber", "");
-            mMacAddress = mSharedPreferences.getString("mac", "");
+            mOutputLog = mSharedPreferences.getBoolean("output_log", mOutputLog);
+            mLatitude = Double.parseDouble(mSharedPreferences.getString("latitude", Double.toString(mLatitude)));
+            mLongitude = Double.parseDouble(mSharedPreferences.getString("longitude", Double.toString(mLongitude)));
+            mIMEI = mSharedPreferences.getString("imei", mIMEI);
+            mAndroidId = mSharedPreferences.getString("androidId", mAndroidId);
+            mSimSerialNumber = mSharedPreferences.getString("simSerialNumber", mSimSerialNumber);
+            mMacAddress = mSharedPreferences.getString("mac", mMacAddress);
+
+            mBuildBoard = mSharedPreferences.getString("buildBoard", mBuildBoard);
+            mBuildDevice = mSharedPreferences.getString("buildDevice", mBuildDevice);
+            mBuildDisplay = mSharedPreferences.getString("buildDisplay", mBuildDisplay);
+            mBuildFingerprint = mSharedPreferences.getString("buildFingerprint", mBuildFingerprint);
+            mBuildHost = mSharedPreferences.getString("buildHost", mBuildHost);
+            mBuildManufacturer = mSharedPreferences.getString("buildManufacturer", mBuildManufacturer);
+            mBuildModel = mSharedPreferences.getString("buildModel", mBuildModel);
+            mBuildProduct = mSharedPreferences.getString("buildProduct", mBuildProduct);
+            mBuildTags = mSharedPreferences.getString("buildTags", mBuildTags);
+            mBuildType = mSharedPreferences.getString("buildType", mBuildType);
+            mBuildUser = mSharedPreferences.getString("buildUser", mBuildUser);
         }
     }
 }
