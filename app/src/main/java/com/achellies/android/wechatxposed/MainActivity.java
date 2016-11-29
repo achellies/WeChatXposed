@@ -166,38 +166,38 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject jsonObject = new JSONObject(jsonParam);
                 if (WeChatRouter.X_ACTION_LOGIN.contentEquals(xAction)) {
-                    String userName = jsonObject.getString("name");
-                    String password = jsonObject.getString("password");
+                    String userName = jsonObject.optString("name");
+                    String password = jsonObject.optString("password");
                     WeChatRouter.getInstance(this).startLoginActivity(this, userName, password);
                 } else if (WeChatRouter.X_ACTION_STAR_CONTACT.contentEquals(xAction)) {
-                    String id = jsonObject.getString("id");
+                    String id = jsonObject.optString("id");
                     WeChatRouter.getInstance(this).startStarContactActivity(this, id);
                 } else if (WeChatRouter.X_ACTION_NEARBY.contentEquals(xAction)) {
-                    double latitude = jsonObject.getDouble("latitude");
-                    double longitude = jsonObject.getDouble("longitude");
+                    double latitude = jsonObject.optDouble("latitude");
+                    double longitude = jsonObject.optDouble("longitude");
                     WeChatRouter.getInstance(this).startNearByActivity(this, longitude, latitude);
                 } else if (WeChatRouter.X_ACTION_START_WEBVIEW.contentEquals(xAction)) {
-                    String url = jsonObject.getString("url");
+                    String url = jsonObject.optString("url");
                     WeChatRouter.getInstance(this).startWebViewActivity(this, url);
                 } else if (WeChatRouter.X_ACTION_MOCK_SYSTEM_INFO.contentEquals(xAction)) {
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("latitude", Double.toString(jsonObject.getDouble("latitude")));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("longitude", Double.toString(jsonObject.getDouble("longitude")));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("imei", jsonObject.getString("imei"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("androidId", jsonObject.getString("androidId"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("simSerialNumber", jsonObject.getString("simSerialNumber"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("mac", jsonObject.getString("mac"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("latitude", Double.toString(jsonObject.optDouble("latitude")));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("longitude", Double.toString(jsonObject.optDouble("longitude")));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("imei", jsonObject.optString("imei"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("androidId", jsonObject.optString("androidId"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("simSerialNumber", jsonObject.optString("simSerialNumber"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("mac", jsonObject.optString("mac"));
 
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildBoard", jsonObject.getString("buildBoard"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildDevice", jsonObject.getString("buildDevice"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildDisplay", jsonObject.getString("buildDisplay"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildFingerprint", jsonObject.getString("buildFingerprint"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildHost", jsonObject.getString("buildHost"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildManufacturer", jsonObject.getString("buildManufacturer"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildModel", jsonObject.getString("buildModel"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildProduct", jsonObject.getString("buildProduct"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildTags", jsonObject.getString("buildTags"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildType", jsonObject.getString("buildType"));
-                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildUser", jsonObject.getString("buildUser"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildBoard", jsonObject.optString("buildBoard"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildDevice", jsonObject.optString("buildDevice"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildDisplay", jsonObject.optString("buildDisplay"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildFingerprint", jsonObject.optString("buildFingerprint"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildHost", jsonObject.optString("buildHost"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildManufacturer", jsonObject.optString("buildManufacturer"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildModel", jsonObject.optString("buildModel"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildProduct", jsonObject.optString("buildProduct"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildTags", jsonObject.optString("buildTags"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildType", jsonObject.optString("buildType"));
+                    WeChatRouter.getInstance(MainActivity.this).mSharedPreferences.setString("buildUser", jsonObject.optString("buildUser"));
                 }
             } catch (JSONException ignore) {
                 ignore.printStackTrace();
